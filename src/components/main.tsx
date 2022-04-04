@@ -2,12 +2,19 @@ import React, {useEffect, useState} from 'react'
 
 export default () => {
   const [tmp, setTmp] = useState("")
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState(null)
   const onChange = (e: any) => {
     setTmp(e.target.value)
   }
   const onInput = () => {
-    setInput(tmp)
+    switch (tmp) {
+      case '-h':
+        setInput(<HelpBlock />)
+        break
+      default:
+        setInput(<HelpBlock />)
+        break
+    }
   }
 
   return (
@@ -19,4 +26,8 @@ export default () => {
       </div>
     </>
   )
+}
+
+export const HelpBlock = () => {
+  return <>help</>
 }
