@@ -1,5 +1,5 @@
 import React, {useRef, useState, useLayoutEffect, createContext, useContext} from 'react'
-import {Box, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview,} from '@chakra-ui/react'
+import {Box, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview, Flex, } from '@chakra-ui/react'
 
 export const CommandContext = createContext(null)
 
@@ -26,8 +26,12 @@ type Props = {
   command: string
 }
 
-export const Block:React.FC<Props> = ({ command=null }: Props) => {
+export const Block:React.VFC<Props> = () => {
+  const [command, setCommand] = useState(null)
   let CommandResult: React.FC
+  const applyCommand = ((c: string) => {
+    setCommand(c)
+  })
 
   switch (command) {
     case '-h':
@@ -39,41 +43,39 @@ export const Block:React.FC<Props> = ({ command=null }: Props) => {
       console.log("list")
       break
     default:
-      CommandResult = HelpBlock
+      CommandResult = () => <></>
       console.log("default")
       break
   }
   return (
     <>
+      <CommandLine applyCommand={applyCommand}/>
       <CommandResult />
-      <CommandLine />
     </>
   )
 }
 
-export const CommandLine: React.FC = () => {
+interface CommandLineProps {
+  applyCommand: (c: string) => void,
+}
+
+export const CommandLine: React.VFC<CommandLineProps> = ({applyCommand}: CommandLineProps) => {
   const inputElement = useRef<HTMLInputElement>(null)
   const { histories, setHistories } = useContext(CommandContext)
   const [ closed, setClosed ] = useState(false)
-  const [ command, setCommand ] = useState("")
 
-  inputElement.current?.focus()
-
-  const onInput = (e:any) => {
-    console.log(inputElement.current.value)
-    if (e.key != 'Enter') return
-    console.log("continue")
-
-    setHistories([...histories, inputElement.current.value])
-    setClosed(true)
-    setCommand(inputElement.current.value)
-  }
+  const currentElement = inputElement.current
+  currentElement?.focus()
 
   const onSubmit= (e:string) => {
     console.log(e)
     setHistories([...histories, e])
     setClosed(true)
-    setCommand(e)
+    applyCommand(e)
+  }
+
+  const onBlur= (e:any) => {
+    e.focus()
   }
 
   return (
@@ -82,13 +84,20 @@ export const CommandLine: React.FC = () => {
       ref={inputElement}
       submitOnBlur={false}
       onSubmit={onSubmit}
+      onBlur={onBlur}
       startWithEditView={true}
       selectAllOnFocus={false}
+      isDisabled={closed ? true : false}
     >
-      <EditablePreview />
-      <EditableInput
-        _focus={{outline: "none"}}
-      />
+      <Flex
+        align="center"
+      >
+        <Text>$ </Text>
+        <EditablePreview />
+        <EditableInput
+          _focus={{outline: "none"}}
+        />
+      </Flex>
     </Editable>
   )
   // if (!closed) {
