@@ -74,8 +74,8 @@ export const CommandLine: React.VFC<CommandLineProps> = ({applyCommand}: Command
     applyCommand(e)
   }
 
-  const onBlur= (e:any) => {
-    e.focus()
+  const onBlur= (e:React.FocusEvent<HTMLInputElement>) => {
+    e.target.focus()
   }
 
   return (
