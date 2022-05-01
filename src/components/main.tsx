@@ -1,11 +1,10 @@
 import React, {useRef, useState, useLayoutEffect, createContext, useContext} from 'react'
-import {Box, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview, Flex, } from '@chakra-ui/react'
+import {Box, HStack, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview, Flex, } from '@chakra-ui/react'
 
-export const CommandContext = createContext(null)
+export const HistoryContext = createContext(null)
 
 export default () => {
   const [histories, setHistories] = useState([""])
-  const [input, setInput] = useState("")
   const scrollBottomRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -14,9 +13,9 @@ export default () => {
 
   return (
     <Container>
-      <CommandContext.Provider value={{ histories, setHistories }}>
+      <HistoryContext.Provider value={{ histories, setHistories }}>
         {histories.map((history: string, index: number) => <Block key={index} command={history}/>)}
-      </CommandContext.Provider>
+      </HistoryContext.Provider>
       <Box ref={scrollBottomRef}/>
     </Container>
   )
@@ -27,14 +26,21 @@ type Props = {
 }
 
 export const Block:React.VFC<Props> = () => {
-  const [command, setCommand] = useState(null)
-  let CommandResult: React.FC
+  const [command, setCommand] = useState('')
+  const { histories, setHistories } = useContext(HistoryContext)
+  let CommandResult: React.VFC<CommandResultProps>
   const applyCommand = ((c: string) => {
     setCommand(c)
+    setHistories([...histories, c])
   })
 
-  switch (command) {
-    case '-h':
+  const parsedCommand = command.split(' ')
+  // shaba command
+  // shaba about: 自己紹介
+  // ls
+  // shaba logs: git logみたいなかんじで
+  switch (parsedCommand[0]) {
+    case 'help':
       CommandResult = HelpBlock
       console.log("help")
       break
@@ -42,6 +48,9 @@ export const Block:React.VFC<Props> = () => {
       CommandResult = LsBlock
       console.log("list")
       break
+    case 'cd':
+    case 'bat':
+    case 'cat':
     default:
       CommandResult = () => <></>
       console.log("default")
@@ -50,7 +59,7 @@ export const Block:React.VFC<Props> = () => {
   return (
     <>
       <CommandLine applyCommand={applyCommand}/>
-      <CommandResult />
+      <CommandResult command={parsedCommand}/>
     </>
   )
 }
@@ -61,7 +70,6 @@ interface CommandLineProps {
 
 export const CommandLine: React.VFC<CommandLineProps> = ({applyCommand}: CommandLineProps) => {
   const inputElement = useRef<HTMLInputElement>(null)
-  const { histories, setHistories } = useContext(CommandContext)
   const [ closed, setClosed ] = useState(false)
 
   const currentElement = inputElement.current
@@ -69,7 +77,6 @@ export const CommandLine: React.VFC<CommandLineProps> = ({applyCommand}: Command
 
   const onSubmit= (e:string) => {
     console.log(e)
-    setHistories([...histories, e])
     setClosed(true)
     applyCommand(e)
   }
@@ -106,10 +113,14 @@ export const CommandLine: React.VFC<CommandLineProps> = ({applyCommand}: Command
   // return <Text>{command}</Text>
 }
 
-export const HelpBlock = () => {
+interface CommandResultProps {
+  command: string[]
+}
+
+export const HelpBlock: React.VFC<CommandResultProps> = ({command}: CommandResultProps) => {
   return <Box>help</Box>
 }
 
-export const LsBlock = () => {
-  return <Box>page list</Box>
+export const BatBlock: React.VFC<CommandResultProps> = ({command}: CommandResultProps) => {
+  return (<></>)
 }
