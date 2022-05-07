@@ -1,70 +1,61 @@
 import React, {useRef, useState, useEffect, useLayoutEffect, createContext, useContext} from 'react'
 import {Box, HStack, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview, Flex, } from '@chakra-ui/react'
-import {Gitgraph} from '@gitgraph/react'
+import {branch, log, Commit} from '../components/glgl'
 
-export const HistoryContext = createContext(null)
+type LogContextType = {
+  logList?: Array<any>, 
+  setLogList?: React.Dispatch<any>
+}
+export const LogContext = createContext<LogContextType>({})
 
 export default () => {
-  const [color, setColor] = useState("#f00")
-  useEffect(() => {
-    const element = document.getElementById("test")
-    if (element) element.style.fill = color
-  } ,[color]);
-
-  const Test: React.VFC = (commit: any) => {
-    return (
-      <g
-        transform = {'translate(0, ' + commit.style.dot.size + ')'}
-      >
-        <text id="test" fill={color}>test</text>
-      </g>
-    )
-    // return React.createElement(
-    //   'g',
-    //   { transform: 'translate(0, ' + commit.style.dot.size + ')' },
-    //   React.createElement(
-    //     'text',
-    //     { fill: commit.style.dot.color, alignmentBaseline: 'central' },
-    //     commit.hashAbbrev,
-    //     ' - ',
-    //     commit.subject
-    //   ),
-    //   React.createElement(
-    //     'foreignObject',
-    //     { width: '600', x: '10' },
-    //     React.createElement(
-    //       'p',
-    //       null,
-    //       "My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?"
-    //     )
-    //   )
-    // )
+  const [logList, setLogList] = useState([])
+  const logContextProps = {
+    logList: logList,
+    setLogList: setLogList
   }
-
   return (
-    <Gitgraph
-      options = {{
-        author: "shaba",
-      }}
-      
-    >
-      {(gitgraph) => {
-        const master = gitgraph.branch("master")
-        master.commit({
-          author: "shaba",
-          subject: "initial commit",
-          // body: "test  test2",
-          hash: "string",
-          // tag: "tag",
-          renderMessage: Test, 
-          onClick: (e) => {console.log("onClick"); setColor("#0F0")},
-          onMessageClick: () => console.log("onMessageClick"),
-          onMouseOver: () => console.log("onMouseOver"),
-          onMouseOut: () => console.log("onMouseOut")
-        })
-        master.commit("test2")
-      }}
-    </Gitgraph>
+    <LogContext.Provider value={logContextProps}>
+      <Container>
+        <Commit 
+          id={1}
+          title="test commit"
+          date="2022-05-07"
+        />
+        <Commit 
+          id={2}
+          title="test commit2"
+          date="2022-05-08"
+        />
+        <Commit 
+          id={3}
+          title="test commit3"
+          date="2022-05-08"
+        />
+        <Text>{JSON.stringify(logList, null, " ")}</Text>
+      </Container>
+    </LogContext.Provider>
   )
 }
 
+// const test = () => {
+//   return (
+//     <Glgl>
+//       <Branch name="main" parentCommit={null}>
+//         <Commit title="initial commit" />
+//         <Commit title="second commit" />
+//         <Branch name="sub1" parentCommit="second commit">
+//           <Commit title="initial commit" />
+//           <Commit title="second commit" />
+//           <Merge into="main" />
+//         </Branch>
+//         <Branch name="sub2" parentCommit="second commit">
+//           <Commit title="initial commit" />
+//           <Commit title="second commit" />
+//           <Merge into="main" />
+//         </Branch>
+//         <Commit title="third commit" />
+//       </Branch>
+//     </Glgl>
+//   )
+// }
