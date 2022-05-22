@@ -1,11 +1,11 @@
-import Branch from './Branch'
+export { Branch } from './Branch'
 export { Commit } from './Commit'
 export { Log } from './Log'
 
 export type branch = {
   id: number
   name: string
-  currentCommit: commit
+  currentCommit?: commit
   parentCommit?: commit
 }
 export type commit = {
@@ -13,10 +13,12 @@ export type commit = {
   title: string
   date: string
   body?: string
-  branch?: branch
+  branch?: string
 }
 
 export type log = {
-  commit: commit
-  branches: Array<branch>
+  action: "commit"|"branch"|"merge"
+  commit?: commit
+  branch?: branch
+  branches?: Array<branch>
 }

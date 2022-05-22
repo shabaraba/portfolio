@@ -892,6 +892,29 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
+"@types/react-anchor-link-smooth-scroll@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-anchor-link-smooth-scroll/-/react-anchor-link-smooth-scroll-1.0.2.tgz#50a4aaa7c2731f644f8a7b69225669fc29bc6746"
+  integrity sha512-ZemNS6WzQN8KA4w0sy5N86qJ55Ft7OnIDGH6QIHe0LL27xkZpNINMNZGR0DacIVPU66+JrbDqi1cKms9qhcPNQ==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-sticky-el@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-sticky-el/-/react-sticky-el-1.0.3.tgz#88fcd56cd0b501e06fe0b8cbcdccb9af375f4e56"
+  integrity sha512-GE4Ry9EmS0RTn2T85uYbcsqvffPbJGhFNkcWWMcEs6ftjrK5Fn6TT6RtgmXpab5ly3c0VLUT7ibh/fD6nwdx4Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react@*":
+  version "18.0.9"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.9.tgz#d6712a38bd6cd83469603e7359511126f122e878"
+  integrity sha512-9bjbg1hJHUm4De19L1cHiW0Jvx3geel6Qczhjd0qY5VKVE2X5+x77YxAepuCwVh4vrgZJdgEJw48zrhRIeF4Nw==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
 "@types/react@^17.0.14":
   version "17.0.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
@@ -1707,6 +1730,11 @@ property-information@^6.0.0:
   resolved "https://registry.yarnpkg.com/property-information/-/property-information-6.1.1.tgz#5ca85510a3019726cb9afed4197b7b8ac5926a22"
   integrity sha512-hrzC564QIl0r0vy4l6MvRLhafmUowhO/O3KgVSoXIbbA2Sz4j8HGpJc6T2cubRVwMwpdiG/vKGfhT4IixmKN9w==
 
+react-anchor-link-smooth-scroll@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-anchor-link-smooth-scroll/-/react-anchor-link-smooth-scroll-1.0.12.tgz#5cd49c73e74be6d20b4c05a5e5c72d07ebbedac7"
+  integrity sha512-aaY+9X0yh8YnC0jBfoTKpsiCLdO/Y6pCltww+VB+NnTBPDOvnIdnp1AlazajsDitc1j+cVSQ+yNtaVeTIMQbxw==
+
 react-clientside-effect@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.5.tgz#e2c4dc3c9ee109f642fac4f5b6e9bf5bcd2219a3"
@@ -1740,6 +1768,11 @@ react-focus-lock@2.5.2:
     use-callback-ref "^1.2.5"
     use-sidecar "^1.0.5"
 
+react-icons@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
+  integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -1763,6 +1796,11 @@ react-remove-scroll@2.4.1:
     tslib "^1.0.0"
     use-callback-ref "^1.2.3"
     use-sidecar "^1.0.1"
+
+react-sticky-el@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/react-sticky-el/-/react-sticky-el-2.0.9.tgz#8cfd17f073c8c116d7c15d2a23156b5e8e372bd9"
+  integrity sha512-JFjFWlaB7gn5bszZlRQ/VKxK3zHiViJdn0EhQ/6WImun5Xbx3OMUX2rirr0QLSEo27dwvoSE4HkIFr30QAScfg==
 
 react-style-singleton@^2.1.0:
   version "2.1.1"

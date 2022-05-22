@@ -1,61 +1,50 @@
 import React, {useRef, useState, useEffect, useLayoutEffect, createContext, useContext} from 'react'
 import {Box, HStack, Container, Input, Text, Editable, EditableInput, EditableTextarea, EditablePreview, Flex, } from '@chakra-ui/react'
-import {branch, log, Commit} from '../components/glgl'
+import {branch, log, Commit, Branch, Log} from '../components/glgl'
 
 type LogContextType = {
-  logList?: Array<any>, 
+  logList?: Array<log>, 
   setLogList?: React.Dispatch<any>
 }
 export const LogContext = createContext<LogContextType>({})
 
-export default () => {
+export default ({children}) => {
   const [logList, setLogList] = useState([])
   const logContextProps = {
     logList: logList,
     setLogList: setLogList
   }
+  console.log( JSON.stringify(logList, null, " ") )
   return (
     <LogContext.Provider value={logContextProps}>
+      {children}
       <Container>
-        <Commit 
-          id={1}
-          title="test commit"
-          date="2022-05-07"
-        />
-        <Commit 
-          id={2}
-          title="test commit2"
-          date="2022-05-08"
-        />
-        <Commit 
-          id={3}
-          title="test commit3"
-          date="2022-05-08"
-        />
         <Text>{JSON.stringify(logList, null, " ")}</Text>
+        <Graph logList={logList} />
       </Container>
     </LogContext.Provider>
   )
 }
 
-// const test = () => {
-//   return (
-//     <Glgl>
-//       <Branch name="main" parentCommit={null}>
-//         <Commit title="initial commit" />
-//         <Commit title="second commit" />
-//         <Branch name="sub1" parentCommit="second commit">
-//           <Commit title="initial commit" />
-//           <Commit title="second commit" />
-//           <Merge into="main" />
-//         </Branch>
-//         <Branch name="sub2" parentCommit="second commit">
-//           <Commit title="initial commit" />
-//           <Commit title="second commit" />
-//           <Merge into="main" />
-//         </Branch>
-//         <Commit title="third commit" />
-//       </Branch>
-//     </Glgl>
-//   )
-// }
+const Graph: React.FC<any> = ({logList}: {logList: Array<any>}) => {
+  // let newLogList = []
+  // logList.forEach((log: log, index: number, newLogList) => {
+  //   if (log.action == "branch") return
+  //   if (!newLogList.find((branch: branch) => {
+  //     branch.name == log.commit.branch
+  //   })) {
+  //     // newLogList.push(branch)
+  //   } 
+  // })
+  // console.log(JSON.stringify(currectLogList, null, " "))
+  return (
+    <ul>
+      {logList.map(log =>{ 
+        if (log.action != "commit") return null
+        return (
+          <Log log={log} />
+        )
+      })}
+    </ul>
+  )
+}
