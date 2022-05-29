@@ -7,6 +7,8 @@ import About from '../components/aboutme'
 import Skill from '../components/skills'
 import Work from '../components/works'
 import Git from '../components/gitgraph'
+import GitGraph from '../components/gitgraph2'
+import {Branch, Commit} from '../components/glgl'
 import Contact from '../components/contact'
 
 import { GetStaticProps } from 'next'
@@ -36,6 +38,39 @@ export default function Home() {
       <Header />
       <Container maxW="conainer.lg">
         <Container maxW="conainer.sm" as="main">
+          <GitGraph>
+            <Branch 
+              id={2}
+              name="sub2"
+              color="#e74c3c"
+            />
+            <Commit
+              id={1}
+              title="commit"
+              body = ""
+              date = "2022-05-27"
+              branchName='sub2'
+            />
+            <Commit
+              id={2}
+              title="commit2"
+              body = ""
+              date = "2022-05-27"
+              branchName='sub2'
+            />
+            <Branch 
+              id={1}
+              name="sub1"
+              color="#ff99ee"
+            />
+            <Commit
+              id={3}
+              title="commit3"
+              body = ""
+              date = "2022-05-27"
+              branchName='sub1'
+            />
+          </GitGraph>
           <Hello />
           <About />
           <Skill />
