@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect, useContext} from 'react'
-import { LogContext } from '../../main'
+import { LogContext } from '../../gitgraph2'
 import {log} from '../../glgl'
 
 export const useLog = (log: log) => {

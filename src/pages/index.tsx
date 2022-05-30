@@ -39,37 +39,12 @@ export default function Home() {
       <Container maxW="conainer.lg">
         <Container maxW="conainer.sm" as="main">
           <GitGraph>
-            <Branch 
-              id={2}
-              name="sub2"
-              color="#e74c3c"
-            />
-            <Commit
-              id={1}
-              title="commit"
-              body = ""
-              date = "2022-05-27"
-              branchName='sub2'
-            />
-            <Commit
-              id={2}
-              title="commit2"
-              body = ""
-              date = "2022-05-27"
-              branchName='sub2'
-            />
-            <Branch 
-              id={1}
-              name="sub1"
-              color="#ff99ee"
-            />
-            <Commit
-              id={3}
-              title="commit3"
-              body = ""
-              date = "2022-05-27"
-              branchName='sub1'
-            />
+            <Branch id={1} name="sub1" color="#e74c3c" />
+            <Commit id={1} title="commit" body = "" date = "2022-05-27" branchName='sub1' />
+            <Commit id={2} title="commit2" body = "" date = "2022-05-27" branchName='sub1' />
+            <Branch id={2} name="sub2" color="#ff99ee" />
+            <Branch id={3} name="sub3" color="#9999ff" />
+            <Commit id={3} title="commit3" body = "" date = "2022-05-27" branchName='sub2' />
           </GitGraph>
           <Hello />
           <About />

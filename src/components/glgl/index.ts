@@ -5,7 +5,8 @@ export { Log } from './Log'
 export type branch = {
   id: number
   name: string
-  currentCommit?: commit
+  color: string
+  latestCommit?: commit
   parentCommit?: commit
 }
 export type commit = {
@@ -13,12 +14,18 @@ export type commit = {
   title: string
   date: string
   body?: string
-  branch?: string
+  prevCommit?: commit
+  branchName: string
+}
+
+export type eachLog = {
+  action: "commit"|"branch"|"merge"
+  commit?: commit
+  checkouts?: branch[]
+  branches?: branch[]
 }
 
 export type log = {
-  action: "commit"|"branch"|"merge"
-  commit?: commit
-  branch?: branch
-  branches?: Array<branch>
+  latest: eachLog
+  prev?: eachLog
 }
