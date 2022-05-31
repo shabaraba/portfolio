@@ -1,4 +1,4 @@
-import React, {createContext, useContext} from 'react'
+import React, {useContext} from 'react'
 import {branch, commit, eachLog} from '.'
 import { LogContext } from '../gitgraph2'
 
@@ -9,7 +9,7 @@ export const Branch: React.VFC<props> = (props: props) => {
   // console.log(JSON.stringify(context.logList, null, 2))
   const latestLog: eachLog = logList[logList.length - 1].latest
 
-  const currentCommit: commit = latestLog.action === 'commit' ? latestLog.commit : latestLog.checkouts[0].latestCommit
+  const currentCommit: commit = latestLog.action !== 'branch' ? latestLog.commit : latestLog.checkouts[0].latestCommit
   let branchList: branch[] = latestLog.branches.slice() // 配列は参照渡しになってしまうので、slice()で配列全体を切り出して新規作成する
 
   const newBranch: branch = {
@@ -22,7 +22,7 @@ export const Branch: React.VFC<props> = (props: props) => {
 
   const parentBranch: branch = branchList.find((branch) => branch.name === currentCommit.branchName)
   const currentBranchIndex: number = branchList.indexOf(parentBranch)
-  branchList.splice(currentBranchIndex + 2, 0, newBranch)
+  branchList.splice(currentBranchIndex + 1, 0, newBranch)
 
   const newLog: eachLog = {
     action: 'branch',

@@ -59,15 +59,13 @@ export default ({children}) => {
   return (
     <LogContext.Provider value={logContextProps}>
       {children}
-      <Container>
-        <UnorderedList>
-          {rendering.map((log: log) =>{ 
-            return (
-              <Log key={Math.random()} log={log} />
-            )
-          })}
-        </UnorderedList>
-      </Container>
+      <UnorderedList>
+        {rendering.map((log: log) =>{ 
+          return (
+            <Log key={Math.random()} log={log} />
+          )
+        })}
+      </UnorderedList>
     </LogContext.Provider>
   )
 }
