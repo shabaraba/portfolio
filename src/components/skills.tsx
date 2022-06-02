@@ -1,5 +1,5 @@
-import React, { PureComponent, useState } from 'react';
-import {Box, Container, Grid, GridItem, } from '@chakra-ui/react'
+import React, { useState } from 'react';
+import {Box, Center, Heading, } from '@chakra-ui/react'
 import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
 
 const data = [
@@ -68,6 +68,11 @@ export default () => {
 
   return (
     <Box h="400">
+      <Center>
+        <Heading as="h2" id="skill">
+          skills
+        </Heading>
+      </Center>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={400} height={400}>
           <Pie

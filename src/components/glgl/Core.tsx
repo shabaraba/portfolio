@@ -1,11 +1,7 @@
 import React, {useState, useLayoutEffect, createContext} from 'react'
-import {UnorderedList, Container, } from '@chakra-ui/react'
-import {branch, log, Log, commit} from '../components/glgl'
+import {UnorderedList} from '@chakra-ui/react'
+import {branch, log, Log, commit, LogContextType} from './'
 
-type LogContextType = {
-  logList?: log[],
-  setLogList?: React.Dispatch<any>
-}
 export const LogContext = createContext<LogContextType>({})
 
 const initialCommit: commit = {
@@ -23,7 +19,7 @@ const mainBranch: branch = {
   parentCommit: initialCommit
 }
 
-export default ({children}) => {
+export const GitGraph = ({children}) => {
   const [rendering, setRendering] = useState([])
   // 今回は動的にコミット等する予定はないので、stateで管理する必要がない（再レンダリングされても一意に保てる）
   // const [logList, setLogList] = useState([])
@@ -69,4 +65,5 @@ export default ({children}) => {
     </LogContext.Provider>
   )
 }
+
 

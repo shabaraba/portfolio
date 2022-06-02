@@ -1,11 +1,15 @@
-import {Link, Icon, Container, Flex, Spacer, HStack} from '@chakra-ui/react'
+import {Link, Icon, Center, Heading, HStack} from '@chakra-ui/react'
 import {SiTwitter, SiGmail} from 'react-icons/si'
 
 export default () => {
   const iconSize = 6
   return (
     <>
-      <div id="test1">contact</div>
+      <Center>
+        <Heading as="h2" id="contact">
+          contact
+        </Heading>
+      </Center>
       <HStack>
         <Link href="https://twitter.com/shaba_raba">
           <Icon as={SiTwitter} w={iconSize} h={iconSize} filter='drop-shadow(3px 3px 3px rgba(0,0,0,0.2))' />

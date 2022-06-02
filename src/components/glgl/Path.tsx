@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import {log, commit, branch, eachLog} from '.'
-import {useCommit} from './hooks/useCommit'
+import {commit, branch, eachLog} from '.'
 
 interface props {
   log: eachLog
@@ -33,8 +32,7 @@ export const CommitDot: React.VFC<props> = (props: props) => {
         }
         )}
 
-        <circle cx={xFrom} cy="15" r="10" fill="#e74c3c" />
-        <circle cx={xFrom} cy="15" r="7" fill="#fcfcfc" />
+        <circle cx={xFrom} cy="20" r="10" fill="#e74c3c" />
 
       </svg>
   )
@@ -52,6 +50,7 @@ interface ConnectPathProps {
 }
 
 export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps) => { 
+  const [isExpand, setIsExpand] = useState(false)
   const prevLog: eachLog|null = props.prevLog ?? null
   const currentLog: eachLog = props.currentLog
 
@@ -61,6 +60,7 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
   const prevBranchList: branch[] = prevLog.branches
   const currentBranchList: branch[] = currentLog.branches
 
+  const mergedBranchList = prevBranchList.filter((prev) => currentBranchList.findIndex((current) => current.id === prev.id) == -1)
   const newBranchList = currentBranchList.filter((current) => prevBranchList.findIndex((prev) => prev.id === current.id) == -1)
   const nonActionedBranchList = currentBranchList.filter((current) => prevBranchList.findIndex((prev) => prev.id === current.id) !== -1)
 
@@ -90,60 +90,6 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
     }
   })
 
-  return (
-      <svg width={200} height="50" viewBox={"0, 0, 200, 50"} xmlns="http://www.w3.org/2000/svg">
-        {nonActionedBranchViewList.map((branchView) => {
-          return <path 
-            key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 60 ${branchView.xTo} 0  ${branchView.xTo} 60`}
-            stroke={branchView.color} 
-            fill="none" 
-            strokeWidth="5" 
-            strokeLinejoin="round"  
-          />
-        }
-        )}
-        {props.currentLog.action === 'branch' && newBranchViewList.map((branchView) => {
-          return <path 
-            key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 60 ${branchView.xTo} 0  ${branchView.xTo} 60`}
-            stroke={branchView.color} 
-            fill="none" 
-            strokeWidth="5" 
-            strokeLinejoin="round"  
-          />
-        }
-        )}
-      </svg>
-  )
-}
-
-export const CommitPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps) => { 
-  const prevLog: eachLog|null = props.prevLog ?? null
-  const currentLog: eachLog = props.currentLog
-
-  if (prevLog === null) return null
-
-  const prevBranchList: branch[] = prevLog.branches
-  const currentBranchList: branch[] = currentLog.branches
-
-  const mergedBranchList = prevBranchList.filter((prev) => currentBranchList.findIndex((current) => current.id === prev.id) == -1)
-  const nonActionedBranchList = currentBranchList.filter((current) => prevBranchList.findIndex((prev) => prev.id === current.id) !== -1)
-
-  const nonActionedBranchViewList: branchView[] = nonActionedBranchList.map((branch: branch) => {
-    let prevSequenceNumber  = prevBranchList.findIndex((prev) => prev.id === branch.id)
-    let currentSequenceNumber  = currentBranchList.findIndex((current) => current.id === branch.id)
-    let xFrom: number = 25 * (prevSequenceNumber + 1)
-    let xTo: number = 25 * (currentSequenceNumber + 1)
-
-    return {
-      xFrom: xFrom,
-      xTo: xTo,
-      color: branch.color
-    }
-  })
-
-  console.log("currentCommit: " + JSON.stringify(currentLog.commit, null,2))
   const mergedBranchViewList: branchView[] = mergedBranchList.map((branch: branch) => {
     let prevSequenceNumber  = prevBranchList.findIndex((prev) => prev.name === currentLog.commit.prevCommit.branchName)
     let currentSequenceNumber  = currentBranchList.findIndex((current) => current.name === currentLog.commit.branchName)
@@ -157,15 +103,15 @@ export const CommitPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
     }
   })
 
-  console.log("----------------------")
-  console.log(JSON.stringify(mergedBranchViewList, null, 2))
+  let height = 50
+  if (isExpand) height = 100
 
   return (
-      <svg width={200} height="50" viewBox={"0, 0, 200, 50"} xmlns="http://www.w3.org/2000/svg">
-        {mergedBranchViewList.map((branchView) => {
+      <svg width={200} height={height} viewBox={"0, 0, 100%, 100%"} xmlns="http://www.w3.org/2000/svg" onClick={(e) => setIsExpand(!isExpand)}>
+        {nonActionedBranchViewList.map((branchView) => {
           return <path 
             key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 60 ${branchView.xTo} 0  ${branchView.xTo} 60`}
+            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
             stroke={branchView.color} 
             fill="none" 
             strokeWidth="5" 
@@ -173,10 +119,21 @@ export const CommitPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
           />
         }
         )}
-        {nonActionedBranchViewList.map((branchView) => {
+        {mergedBranchViewList.map((branchView) => {
           return <path 
             key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 60 ${branchView.xTo} 0  ${branchView.xTo} 60`}
+            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
+            stroke={branchView.color} 
+            fill="none" 
+            strokeWidth="5" 
+            strokeLinejoin="round"  
+          />
+        }
+        )}
+        {props.currentLog.action === 'branch' && newBranchViewList.map((branchView) => {
+          return <path 
+            key={Math.random()} 
+            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
             stroke={branchView.color} 
             fill="none" 
             strokeWidth="5" 
@@ -187,3 +144,4 @@ export const CommitPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
       </svg>
   )
 }
+

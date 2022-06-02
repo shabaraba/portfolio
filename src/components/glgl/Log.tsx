@@ -1,10 +1,15 @@
-import React from 'react'
-import {ListItem} from '@chakra-ui/react'
+import React, {useRef, useEffect} from 'react'
+import {ListItem, Text, Box, Stack, HStack} from '@chakra-ui/react'
 
 import {log, eachLog} from '.'
-import {CommitPath, BranchPath, CommitDot} from './Path'
+import {BranchPath, CommitDot} from './Path'
 
 export const Log = ({log}: {log:log}) => {
+  const elm = useRef(null)
+  useEffect(() => {
+    console.log(elm?.current?.clientHeight)
+  }, [elm])
+
   if (log.latest.action === 'branch') return (
     <ListItem
       listStyleType="none"
@@ -20,29 +25,37 @@ export const Log = ({log}: {log:log}) => {
   const branchName: string = currentLog.commit.branchName
   const commitTitle: string = currentLog.commit.title
   return (
-    <>
-      { prevLog?.action !== 'branch' &&
-        <ListItem
+    <ListItem
           listStyleType="none"
           display="flex"
           alignItems="center"
+          ref={elm}
+    >
+      <Stack spacing='0px'>
+        { prevLog?.action !== 'branch' &&
+          <BranchPath prevLog={log.prev} currentLog={log.latest}/>
+        }
+        <Box
+          _hover={{
+            filter: 'drop-shadow(10px 10px 10px rgba(0,0,0,0.4))',
+            transition: 'all .3s'
+          }}
+          
         >
-          <CommitPath prevLog={log.prev} currentLog={log.latest}/>
-        </ListItem>
-      }
-      <ListItem
-        listStyleType="none"
-        display="flex"
-        alignItems="center"
-        _hover={{
-          filter: 'drop-shadow(10px 10px 10px rgba(0,0,0,0.4))',
-          transition: 'all .3s'
-        }}
-        
-      >
-        <CommitDot log={log.latest} />
-        {" [ " + branchName + " ] " + commitTitle}
-      </ListItem>
-    </>
+          <HStack>
+            <CommitDot log={log.latest} />
+            <Text>
+              {" [ " + branchName + " ] " + commitTitle}
+            </Text>
+          </HStack>
+          <HStack>
+            <BranchPath prevLog={log.latest} currentLog={log.latest}/>
+            <Text>
+              body...
+            </Text>
+          </HStack>
+        </Box>
+      </Stack>
+    </ListItem>
   )
 }

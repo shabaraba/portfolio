@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import {branch, commit, eachLog} from '.'
-import { LogContext } from '../gitgraph2'
+import { LogContext } from './'
 
 type props = branch & {children?: React.ReactNode}
 export const Branch: React.VFC<props> = (props: props) => { 

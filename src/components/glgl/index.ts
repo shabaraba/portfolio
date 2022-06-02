@@ -1,3 +1,4 @@
+export { GitGraph, LogContext } from './Core'
 export { Branch } from './Branch'
 export { Commit } from './Commit'
 export { Log } from './Log'
@@ -37,4 +38,9 @@ export type eachLog = {
 export type log = {
   latest: eachLog
   prev?: eachLog
+}
+
+export type LogContextType = {
+  logList?: log[],
+  setLogList?: React.Dispatch<any>
 }

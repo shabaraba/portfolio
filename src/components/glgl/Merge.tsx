@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
-import { LogContext } from '../gitgraph2'
-import {eachLog, branch, merge, commit} from '.'
+import {LogContext} from './Core'
+import {eachLog, branch, merge, commit} from './index'
 
 export const Merge: React.VFC<merge> = (props: merge) => { 
 

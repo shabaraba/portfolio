@@ -16,7 +16,7 @@ export default () => {
   return (
     <Container maxW="container.md">
       <Center>
-        <Heading as="h2">
+        <Heading as="h2" id="about">
           about me
         </Heading>
       </Center>

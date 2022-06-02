@@ -1,4 +1,4 @@
 export default () => {
-  return <>works</>
+  return <div id="work">works</div>
 }
 

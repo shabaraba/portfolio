@@ -1,6 +1,6 @@
-import React, {useState, useLayoutEffect, useEffect, useContext} from 'react'
-import { LogContext } from '../gitgraph2'
-import {commit, log, eachLog, branch} from '.'
+import React, {useContext} from 'react'
+import {LogContext} from './Core'
+import {eachLog, branch, commit} from './'
 
 type props = commit & {children?: React.ReactNode}
 export const Commit: React.VFC<props> = (props: props) => { 
