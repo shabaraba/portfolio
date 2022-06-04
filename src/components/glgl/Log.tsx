@@ -4,7 +4,7 @@ import {ListItem, Text, Box, Stack, HStack} from '@chakra-ui/react'
 import {log, eachLog} from '.'
 import {BranchPath, CommitDot} from './Path'
 
-export const Log = ({log}: {log:log}) => {
+export const Log = ({log, reverse}: {log:log, reverse: boolean}) => {
   const elm = useRef(null)
   useEffect(() => {
     console.log(elm?.current?.clientHeight)
@@ -16,7 +16,7 @@ export const Log = ({log}: {log:log}) => {
       display="flex"
       alignItems="center"
     >
-      <BranchPath prevLog={log.prev} currentLog={log.latest}/>
+      <BranchPath prevLog={log.prev} currentLog={log.latest} reverse={reverse}/>
     </ListItem>
   )
 
@@ -32,8 +32,8 @@ export const Log = ({log}: {log:log}) => {
           ref={elm}
     >
       <Stack spacing='0px'>
-        { prevLog?.action !== 'branch' &&
-          <BranchPath prevLog={log.prev} currentLog={log.latest}/>
+        { !reverse && prevLog?.action !== 'branch' &&
+          <BranchPath prevLog={log.prev} currentLog={log.latest} reverse={reverse}/>
         }
         <Box
           _hover={{
@@ -49,12 +49,15 @@ export const Log = ({log}: {log:log}) => {
             </Text>
           </HStack>
           <HStack>
-            <BranchPath prevLog={log.latest} currentLog={log.latest}/>
+            <BranchPath prevLog={log.latest} currentLog={log.latest} reverse={reverse}/>
             <Text>
               body...
             </Text>
           </HStack>
         </Box>
+        { reverse && prevLog?.action !== 'branch' &&
+          <BranchPath prevLog={log.prev} currentLog={log.latest} reverse={reverse}/>
+        }
       </Stack>
     </ListItem>
   )

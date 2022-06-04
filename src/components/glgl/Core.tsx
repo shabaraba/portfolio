@@ -19,7 +19,7 @@ const mainBranch: branch = {
   parentCommit: initialCommit
 }
 
-export const GitGraph = ({children}) => {
+export const GitGraph = ({reverse, children}) => {
   const [rendering, setRendering] = useState([])
   // 今回は動的にコミット等する予定はないので、stateで管理する必要がない（再レンダリングされても一意に保てる）
   // const [logList, setLogList] = useState([])
@@ -45,9 +45,13 @@ export const GitGraph = ({children}) => {
     //   },
     //   ...logList,
     // ]
-    setRendering(logList)
+    if (reverse == true) {
+      setRendering(logList.reverse())
+    } else {
+      setRendering(logList)
+    }
     // console.log(JSON.stringify(logList, null, 2))
-  }, [])
+  }, [reverse])
 
   const logContextProps = {
     logList: logList,
@@ -56,9 +60,9 @@ export const GitGraph = ({children}) => {
     <LogContext.Provider value={logContextProps}>
       {children}
       <UnorderedList>
-        {rendering.map((log: log) =>{ 
+        {rendering.map((log: log) => { 
           return (
-            <Log key={Math.random()} log={log} />
+            <Log key={Math.random()} log={log} reverse={reverse} />
           )
         })}
       </UnorderedList>

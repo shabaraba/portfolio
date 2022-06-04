@@ -41,10 +41,13 @@ export const CommitDot: React.VFC<props> = (props: props) => {
 interface branchView {
   xFrom: number
   xTo: number
+  yFrom: number
+  yTo: number
   color: string
 }
 
 interface ConnectPathProps {
+  reverse: boolean
   currentLog: eachLog
   prevLog?: eachLog
 }
@@ -56,6 +59,8 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
 
   if (prevLog === null) return null
   // if (currentLog.action !== 'branch') return null
+  let height = 50
+  if (isExpand) height = 100
 
   const prevBranchList: branch[] = prevLog.branches
   const currentBranchList: branch[] = currentLog.branches
@@ -69,10 +74,20 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
     let currentSequenceNumber  = currentBranchList.findIndex((current) => current.id === branch.id)
     let xFrom: number = 25 * (prevSequenceNumber + 1)
     let xTo: number = 25 * (currentSequenceNumber + 1)
+    let yFrom: number = 0
+    let yTo: number = height
+
+    if (props.reverse) {
+      let tmp = xFrom
+      xFrom = xTo
+      xTo = tmp
+    }
 
     return {
       xFrom: xFrom,
       xTo: xTo,
+      yFrom: yFrom,
+      yTo: yTo,
       color: branch.color
     }
   })
@@ -82,10 +97,20 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
     let currentSequenceNumber  = currentBranchList.findIndex((current) => current.id === branch.id)
     let xFrom: number = 25 * (prevSequenceNumber + 1)
     let xTo: number = 25 * (currentSequenceNumber + 1)
+    let yFrom: number = 0
+    let yTo: number = height
+
+    if (props.reverse) {
+      let tmp = xFrom
+      xFrom = xTo
+      xTo = tmp
+    }
 
     return {
       xFrom: xFrom,
       xTo: xTo,
+      yFrom: yFrom,
+      yTo: yTo,
       color: branch.color
     }
   })
@@ -95,23 +120,30 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
     let currentSequenceNumber  = currentBranchList.findIndex((current) => current.name === currentLog.commit.branchName)
     let xFrom: number = 25 * (prevSequenceNumber + 1)
     let xTo: number = 25 * (currentSequenceNumber + 1)
+    let yFrom: number = 0
+    let yTo: number = height
+
+    if (props.reverse) {
+      let tmp = xFrom
+      xFrom = xTo
+      xTo = tmp
+    }
 
     return {
       xFrom: xFrom,
       xTo: xTo,
+      yFrom: yFrom,
+      yTo: yTo,
       color: branch.color
     }
   })
-
-  let height = 50
-  if (isExpand) height = 100
 
   return (
       <svg width={200} height={height} viewBox={"0, 0, 100%, 100%"} xmlns="http://www.w3.org/2000/svg" onClick={(e) => setIsExpand(!isExpand)}>
         {nonActionedBranchViewList.map((branchView) => {
           return <path 
             key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
+            d={`M ${branchView.xFrom} ${branchView.yFrom} C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${branchView.yTo}`}
             stroke={branchView.color} 
             fill="none" 
             strokeWidth="5" 
@@ -122,7 +154,7 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
         {mergedBranchViewList.map((branchView) => {
           return <path 
             key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
+            d={`M ${branchView.xFrom} ${branchView.yFrom} C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${branchView.yTo}`}
             stroke={branchView.color} 
             fill="none" 
             strokeWidth="5" 
@@ -133,7 +165,7 @@ export const BranchPath: React.VFC<ConnectPathProps> = (props: ConnectPathProps)
         {props.currentLog.action === 'branch' && newBranchViewList.map((branchView) => {
           return <path 
             key={Math.random()} 
-            d={`M ${branchView.xFrom} 0 C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${height}`}
+            d={`M ${branchView.xFrom} ${branchView.yFrom} C ${branchView.xFrom} 40 ${branchView.xTo} 20  ${branchView.xTo} ${branchView.yTo}`}
             stroke={branchView.color} 
             fill="none" 
             strokeWidth="5" 

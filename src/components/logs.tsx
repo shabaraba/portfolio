@@ -16,7 +16,7 @@ export default () => {
           logs
         </Heading>
       </Center>
-      <GitGraph>
+      <GitGraph reverse={true}>
         <Branch id={1} name="student" color="#e74c3c" />
         <Commit id={1} title="清風高等学校 卒業" body = "" date = "2010-03" branchName='student' />
         <Commit id={2} title="大阪大学 基礎工学部 入学" body = "" date = "2011-04" branchName='student' />
